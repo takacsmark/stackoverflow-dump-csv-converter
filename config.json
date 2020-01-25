@@ -1,0 +1,83 @@
+{
+    "PostLinks": {
+        "headers": [
+            "Id", 
+            "CreationDate", 
+            "PostId", 
+            "RelatedPostId", 
+            "LinkTypeId"
+        ]
+    },
+    "Posts": {
+        "headers": [
+            "Id",
+            "PostTypeId",
+            "AcceptedAnswerId",
+            "CreationDate",
+            "Score",
+            "ViewCount",
+            "Body",
+            "OwnerUserId",
+            "LastEditorUserId",
+            "LastEditorDisplayName",
+            "LastEditDate",
+            "LastActivityDate",
+            "Title",
+            "Tags",
+            "AnswerCount",
+            "CommentCount",
+            "FavoriteCount",
+            "CommunityOwnedDate"
+        ],
+        "include": [
+            "Id",
+            "PostTypeId",
+            "AcceptedAnswerId",
+            "CreationDate",
+            "Score",
+            "ViewCount",
+            "OwnerUserId",
+            "Title",
+            "Tags",
+            "AnswerCount",
+            "CommentCount",
+            "FavoriteCount"
+        ],
+        "filters": {
+            "PostTypeId": ["==", "1"] 
+        },
+        "fixes": {
+            "Title": ["\"", "\"\""]
+        }
+    },
+    "Tags": {
+        "headers": [
+            "Id", 
+            "TagName", 
+            "Count", 
+            "ExcerptPostId", 
+            "WikiPostId"
+        ]
+    },
+    "Users": {
+        "headers": [
+            "Id",
+            "Reputation",
+            "CreationDate",
+            "DisplayName",
+            "LastAccessDate",
+            "WebsiteUrl",
+            "Location",
+            "AboutMe",
+            "Views",
+            "UpVotes",
+            "DownVotes",
+            "ProfileImageUrl",
+            "AccountId"
+        ],
+        "fixes": {
+            "Location": ["\"", "\"\""]
+        }
+    }
+}
+

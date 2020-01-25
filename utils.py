@@ -19,7 +19,9 @@ def print_usage(message):
     contverter [options] filename workdir [release]
 
     Options:
+    -a, --apply-filters     Apply filters under the 'filters' key in config file.
     -f, --force             Overwrite output CSV file if exists.
+    -l, --limit-columns     Include only those columns that are under the 'include' key in the config file.
     -p, --progress-bar      Show progress bar. If the release argument is specified and a line_numbers entry with key release exists in `meta.py`, then the progress bar uses this entry to display progress. Otherwise the script will count the lines in the input file, which might take long. 
 
     Arguments:
@@ -36,12 +38,18 @@ def init_from_arguments(args: List):
     # extracts options
     force_overwrite = False
     progress_bar = False
+    limit_columns = False
+    apply_filters = False
 
     while bool(re.match(r"^-.*", args[0])):
         if bool(re.match(r"^(-f|--force)", args[0])):
             force_overwrite = True
         elif bool(re.match(r"^(-p|--progress-bar)", args[0])):
             progress_bar = True
+        elif bool(re.match(r"^(-l|--limit-columns)", args[0])):
+            limit_columns = True
+        elif bool(re.match(r"^(-a|--apply-filters)", args[0])):
+            apply_filters = True
         else:
             print_usage("Error: Unkown option '{}'.\n".format(args[0]))
 
@@ -61,12 +69,12 @@ def init_from_arguments(args: List):
     if not os.path.isdir(workdir):
         sys.exit("Error: Working directory does not exist.")
 
-    if not os.path.isfile(workdir + "/" + filename + ".xml"):
+    if not os.path.isfile(workdir.rstrip("/") + "/" + filename + ".xml"):
         sys.exit("Error: Input file does not exists at give path.")
 
     release = args[2] if len(args) == 3 else None #release is optional
     
-    return force_overwrite, progress_bar, filename, workdir, release
+    return force_overwrite, progress_bar, limit_columns, apply_filters, filename, workdir, release
 
 def read_meta_from_file():
     """Reads meta information from meta file.
@@ -78,19 +86,17 @@ def read_meta_from_file():
     except OSError:
         sys.exit("Could not open/read meta file: meta.json.")
 
-
 def count_lines_in_file(workdir: str, filename: str):
     """Count lines in a file
     """
    
-    print("Counting the number of lines in the input file. This may take several minutes.") 
-    return int(re.search(r'\d+', subprocess.check_output(["wc", "-l", workdir + "/" + filename + ".xml"]).decode("utf-8")).group())
-
+    print("Info: Counting the number of lines in the input file. This may take several minutes.") 
+    return int(re.search(r'\d+', subprocess.check_output(["wc", "-l", workdir.rstrip("/") + "/" + filename + ".xml"]).decode("utf-8")).group())
 
 def update_meta_file(meta: Dict):
     """Updates meta information in meta file.
     """
-    print("Updating meta file.")
+    print("Info: Updating meta file.")
 
     try:
         with open(meta_file_name, "w") as meta_file:
@@ -98,4 +104,18 @@ def update_meta_file(meta: Dict):
     except OSError:
         sys.exit("Could not open/write meta file: meta.json.")
 
+def read_config_from_file(data_type):
+    """Reads config information from config file.
+    """
+
+    try:
+        with open(config_file_name, "r") as config_file:
+            config = json.load(config_file)
+
+            if data_type in config:
+                return config[data_type]
+            else:
+                sys.exit("Error: Cannot find config item for {}.".format(data_type))
+    except OSError:
+        sys.exit("Could not open/read config file: {}.".format(config_file_name))
 
