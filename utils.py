@@ -7,9 +7,13 @@ import json
 
 from constants import *
 
-def print_usage():
+def print_usage(message):
     """Prints script usage instructions
     """
+    
+    if message:
+        print()
+        print(message)
 
     print("""Usage:
     contverter [options] filename workdir [release]
@@ -23,7 +27,7 @@ def print_usage():
     - workdir               Directory where the input file is located. The output directory will the same as workdir.
     - release               Release date of the dump file in YYYY_MM format (e.g. 2019_12).""")
 
-    sys.exit()
+    sys.exit(1)
 
 def init_from_arguments(args: List):
     """Extracts options and arguments from command line arguments
@@ -39,8 +43,7 @@ def init_from_arguments(args: List):
         elif bool(re.match(r"^(-p|--progress-bar)", args[0])):
             progress_bar = True
         else:
-            print("Error: Unkown option '{}'.\n".format(args[0]))
-            print_usage()
+            print_usage("Error: Unkown option '{}'.\n".format(args[0]))
 
         args.pop(0)
 
