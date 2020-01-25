@@ -36,15 +36,27 @@ How to use the converter:
         2. meta.json            Contains the number of lines in each XML archive - this information is used in the progress bar, you can turn off the progress bar as described below.
         3. config.json          Contains the conversion configuration of each data type - specify here which columns you want to include in your CSV, add data transformation rules to fix data issues.
 """
-from utils import * 
-from meta import meta
+from utils import *
 from config import config
 
 # extract command line arguments
-force_overwrite, progress_bar, dataset, workdir, release = init_from_arguments(sys.argv[1:])
+force_overwrite, progress_bar, filename, workdir, release = init_from_arguments(sys.argv[1:])
 
+# read meta information
+meta = read_meta_from_file()
 
+# count lines in input file
+line_count: int
 
+if progress_bar:
+    if not release or not release in meta or not filename in meta[release]["line_count"]:
+        line_count = count_lines_in_file(workdir, filename)
+        meta[release]["line_count"][filename] = line_count
+        update_meta_file(meta)
 
+line_count = meta[release]["line_count"][filename]
+
+# load configuration
+# overwrite existing output file
 
 

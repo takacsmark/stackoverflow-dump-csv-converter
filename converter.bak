@@ -11,9 +11,6 @@ import json
 import os.path
 from glob import glob
 
-def count_lines_in_file(file):
-    return int(re.search(r'\d+', subprocess.check_output(["wc", "-l", file]).decode("utf-8")).group())
-
 def main(dataset, workdir, release, limit = -1):
     """Convert a Stackoverflow dataset from XML to CSV
 
