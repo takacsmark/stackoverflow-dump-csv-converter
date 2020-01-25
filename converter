@@ -1,0 +1,50 @@
+#!/usr/local/anaconda3/bin/python3
+
+""" Converts Stackoverflow Dump XML files to CSV
+Written by:     Mark Takacs
+Created:        August, 2018
+
+*** This script requires Python 3.6+! ***
+
+Configured to process the following data types:
+    - Posts
+    - PostLinks
+    - Tags
+    - Users
+
+
+Getting started:
+    1. Download the Stackoverflow data files from the Internet Archive Stackexchange directory listing (https://archive.org/download/stackexchange). The Stackoverflow dump files are released every 3 months, so you may download a new version of the archives regularly.
+    On the Internet Archive Stackexchange directory listing web page scroll down to the files that start with "stackoverflow.com-" and click the links to download. The archive offers the following files as of January 2020:
+        - stackoverflow.com-Badges.7z
+        - stackoverflow.com-Comments.7z
+        - stackoverflow.com-PostHistory.7z
+        - stackoverflow.com-PostLinks.7z
+        - stackoverflow.com-Posts.7z
+        - stackoverflow.com-Tags.7z
+        - stackoverflow.com-Users.7z
+        - stackoverflow.com-Votes.7z
+    You need about 50G free space to download all files.
+    2. Unzip the files with a utility that can handle 7zip, like P7ZIP on Linux and MacOS or 7-Zip on Windows. The extracted files are in XML format. You can convert these files to CSV with this script.
+    3. In your terminal go to the directory that contains the unarchived files and run the converter as described below in the "How to use the converter" section.
+    4. Import the CSV files to a relational database or query the data them with a tool like Python Pandas.
+
+
+How to use the converter:
+    - The converter consists of 3 key files:
+        1. converter            The executable converter script written in Python - this file.
+        2. meta.json            Contains the number of lines in each XML archive - this information is used in the progress bar, you can turn off the progress bar as described below.
+        3. config.json          Contains the conversion configuration of each data type - specify here which columns you want to include in your CSV, add data transformation rules to fix data issues.
+"""
+from utils import * 
+from meta import meta
+from config import config
+
+# extract command line arguments
+force_overwrite, progress_bar, dataset, workdir, release = init_from_arguments(sys.argv[1:])
+
+
+
+
+
+
