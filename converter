@@ -100,9 +100,6 @@ delimiter=","       #delimiter in output file
 tag = "row"         #XML tag to be processed
 #n = 0
 
-output.write(delimiter.join(config["headers"]) + '\n')
-print("Info: File initialized with headers.")
-
 # initialize column list, limit to includes, if existst in config, otherwise use all columns list in config headers
 columns = config["headers"]
 
@@ -111,6 +108,9 @@ if limit_columns:
         columns = config["include"]
     else:
         print("Info: Running with limit columns option, but no 'include' key in config. Reverting to all columns.")
+
+output.write(delimiter.join(columns) + '\n')
+print("Info: File initialized with headers.")
 
 print("Info: Converting.")
 with tqdm(total=line_count, unit="lines") as pbar:

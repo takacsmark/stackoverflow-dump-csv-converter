@@ -7,7 +7,7 @@ import json
 
 from constants import *
 
-def print_usage(message):
+def print_usage(message: str):
     """Prints script usage instructions
     """
     
@@ -31,7 +31,7 @@ def print_usage(message):
 
     sys.exit(1)
 
-def init_from_arguments(args: List):
+def init_from_arguments(args: List) -> bool, bool, bool, bool, str, str, str:
     """Extracts options and arguments from command line arguments
     """
 
