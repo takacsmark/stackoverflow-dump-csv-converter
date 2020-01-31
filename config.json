@@ -31,17 +31,7 @@
         ],
         "include": [
             "Id",
-            "PostTypeId",
-            "AcceptedAnswerId",
-            "CreationDate",
-            "Score",
-            "ViewCount",
-            "OwnerUserId",
-            "Title",
-            "Tags",
-            "AnswerCount",
-            "CommentCount",
-            "FavoriteCount"
+            "ViewCount"
         ],
         "filters": {
             "PostTypeId": ["==", "1"] 

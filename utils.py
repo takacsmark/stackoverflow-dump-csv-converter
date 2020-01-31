@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Tuple
 import sys
 import re
 import os.path
@@ -22,7 +22,6 @@ def print_usage(message: str):
     -a, --apply-filters     Apply filters under the 'filters' key in config file.
     -f, --force             Overwrite output CSV file if exists.
     -l, --limit-columns     Include only those columns that are under the 'include' key in the config file.
-    -p, --progress-bar      Show progress bar. If the release argument is specified and a line_numbers entry with key release exists in `meta.py`, then the progress bar uses this entry to display progress. Otherwise the script will count the lines in the input file, which might take long. 
 
     Arguments:
     - filename              Name of the Stackverflow data file to be converted without extension. Value must be One of Badges, Comments, PostHistory, PostLinks, Posts, Tags, Users or Votes. 
@@ -31,21 +30,18 @@ def print_usage(message: str):
 
     sys.exit(1)
 
-def init_from_arguments(args: List) -> bool, bool, bool, bool, str, str, str:
+def init_from_arguments(args: List) -> Tuple[bool, bool, bool, str, str, str]:
     """Extracts options and arguments from command line arguments
     """
 
     # extracts options
     force_overwrite = False
-    progress_bar = False
     limit_columns = False
     apply_filters = False
 
     while bool(re.match(r"^-.*", args[0])):
         if bool(re.match(r"^(-f|--force)", args[0])):
             force_overwrite = True
-        elif bool(re.match(r"^(-p|--progress-bar)", args[0])):
-            progress_bar = True
         elif bool(re.match(r"^(-l|--limit-columns)", args[0])):
             limit_columns = True
         elif bool(re.match(r"^(-a|--apply-filters)", args[0])):
@@ -74,7 +70,7 @@ def init_from_arguments(args: List) -> bool, bool, bool, bool, str, str, str:
 
     release = args[2] if len(args) == 3 else None #release is optional
     
-    return force_overwrite, progress_bar, limit_columns, apply_filters, filename, workdir, release
+    return force_overwrite, limit_columns, apply_filters, filename, workdir, release
 
 def read_meta_from_file():
     """Reads meta information from meta file.

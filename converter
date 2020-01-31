@@ -45,8 +45,12 @@ import operator
 from utils import *
 from constants import ops
 
+# no arguments received
+if len(sys.argv) == 1:
+    print_usage("Error: Converter requires at least two arguments.")
+
 # extract command line arguments
-force_overwrite, progress_bar, limit_columns, apply_filters, filename, workdir, release = init_from_arguments(sys.argv[1:])
+force_overwrite, limit_columns, apply_filters, filename, workdir, release = init_from_arguments(sys.argv[1:])
 print("Info: Command line arguments extracted.")
 
 # read meta information
@@ -60,14 +64,22 @@ print("Info: Config information read from file.")
 # count lines in input file
 line_count: int
 
-if progress_bar:
-    if not release or not release in meta or not filename in meta[release]["line_count"]:
-        line_count = count_lines_in_file(workdir, filename)
-        meta[release]["line_count"][filename] = line_count
+if not release or not release in meta or not filename in meta[release]["line_count"]:
+    line_count = count_lines_in_file(workdir, filename)
+    if relase 
+        if not release in meta:
+            meta[release] = {
+                "line_count": {
+                    filename: line_count
+                }
+            }
+        else:
+            meta[release]["line_count"][filename] = line_count
         update_meta_file(meta)
-
+else:
     line_count = meta[release]["line_count"][filename]
-    print("Info: Line count acquired.")
+
+print("Info: Line count acquired.")
 
 #========================================
 # conversion logic starts here
